@@ -4,7 +4,7 @@ For people who really hate adding new mods to their modpack.
 
 ## Showcase
 
-
+![showcase_gif](https://github.com/gcatkjspkgs/trippers-titles/assets/79367505/2e492f03-c82c-43df-9fe1-d325fc6ea27f)
 
 ## Configuration
 
