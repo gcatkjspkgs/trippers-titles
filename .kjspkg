@@ -1,6 +1,6 @@
 {
     "author": "G_cat",
-    "description": "A scuffed attempt at recreating Traveler's Titles entirely in KubeJS Legacy.",
+    "description": "A scuffed attempt at recreating Traveler's Titles entirely in KubeJS Legacy. Configuration example: https://github.com/gcatkjspkgs/trippers-titles#configuration",
     
     "versions": [6, 8],
     "modloaders": ["forge", "fabric"],
