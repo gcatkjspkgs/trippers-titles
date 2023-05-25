@@ -27,3 +27,14 @@ Simply add a lang key that looks like this:
     "dimension.{modid}.{dimensionid}": "<Dimension name>"
 }
 ```
+
+## Adding dimension/biome colors
+
+Similarly, add a lang key ending in `.color`:
+
+```json
+{
+    "biome.{modid}.{biomeid}.color": "#<Hex color>",
+    "dimension.{modid}.{dimensionid}.color": "#<Hex color>"
+}
+```

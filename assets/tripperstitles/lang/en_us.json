@@ -1,5 +1,9 @@
 {
     "dimension.minecraft.overworld": "Overworld",
     "dimension.minecraft.the_nether": "Nether",
-    "dimension.minecraft.the_end": "The End"
+    "dimension.minecraft.the_end": "The End",
+
+    "dimension.minecraft.overworld.color": "#1fff2a",
+    "dimension.minecraft.the_nether.color": "#ff3030",
+    "dimension.minecraft.the_end.color": "#feffba"
 }
