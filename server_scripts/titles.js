@@ -1,11 +1,11 @@
-onEvent("player.logged_in", event => {
+global.kjspkgCompatLayer.legacyOnEvent("player.logged_in", event => {
 	event.player.persistentData.tripperstitles = JSON.stringify({
 		"biome": "",
 		"dimension": ""
 	})
 })
 
-onEvent("player.tick", event => {
+global.kjspkgCompatLayer.legacyOnEvent("player.tick", event => {
 	let biome = event.player.block.biomeId.toString()
 	let dimension = event.player.block.dimension.toString()
 	let data = JSON.parse(event.player.persistentData.tripperstitles)
