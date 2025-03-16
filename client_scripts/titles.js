@@ -18,24 +18,30 @@ global.kjspkgCompatLayer.legacyOnEvent("client.tick", event => {
 
 	if (biome_key) {
 		let biome_color = Text.translate(biome_key+".color").string
-		_MC_INSTANCE.gui.setTitles(
+		let subtitle = Text.translate(biome_key).color(biome_color==biome_key+".color" ? "#ffffff" : biome_color)
+		
+		if (global.kjspkgCompatLayer.versionId==6) _MC_INSTANCE.gui.setTitles(
 			null,
-			Text.translate(biome_key).color(biome_color==biome_key+".color" ? "#ffffff" : biome_color),
+			subtitle,
 			-1,
 			-1,
 			-1
 		)
+		else _MC_INSTANCE.gui.setSubtitle(subtitle)
 	}
 
 	if (dimension_key || biome_key) {
 		let dimension_color = Text.translate(dimension_key+".color").string
-		_MC_INSTANCE.gui.setTitles(
-			Text.translate(dimension_key).color(dimension_color==dimension_key+".color" ? "#ffffff" : dimension_color),
+		let title = Text.translate(dimension_key).color(dimension_color==dimension_key+".color" ? "#ffffff" : dimension_color)
+
+		if (global.kjspkgCompatLayer.versionId==6) _MC_INSTANCE.gui.setTitles(
+			title,
 			null,
 			-1,
 			-1,
 			-1
 		)
+		else _MC_INSTANCE.gui.setTitle(title)
 	}
 	
 	tripperData = {
