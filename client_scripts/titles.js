@@ -24,14 +24,16 @@ global.kjspkgCompatLayer.legacyOnEvent("client.tick", event => {
 		let biomeColor = Text.translate(biomeKey+".color").string
 		let subtitle = Text.translate(biomeKey).color(biomeColor == biomeKey+".color" ? "#ffffff" : biomeColor)
 		
-		if (global.kjspkgCompatLayer.versionId==6) _MC_INSTANCE.gui.setTitles(
-			null,
-			subtitle,
-			-1,
-			-1,
-			-1
-		)
-		else _MC_INSTANCE.gui.setSubtitle(subtitle)
+        if (subtitle.string) {
+            if (global.kjspkgCompatLayer.versionId==6) _MC_INSTANCE.gui.setTitles(
+                null,
+                subtitle,
+                -1,
+                -1,
+                -1
+            )
+            else _MC_INSTANCE.gui.setSubtitle(subtitle)
+        }
 	}
 
 	if (newDimension || newBiome) {
@@ -43,25 +45,27 @@ global.kjspkgCompatLayer.legacyOnEvent("client.tick", event => {
 		let dimensionColor = Text.translate(dimensionKey+".color").string
 		let title = Text.translate(stopShowingDimension ? "" : dimensionKey).color(dimensionColor == dimensionKey+".color" ? "#ffffff" : dimensionColor)
 
-		if (global.kjspkgCompatLayer.versionId==6) {
-            _MC_INSTANCE.gui.setTitles(
-                null,
-                null,
-                10 * +(ticksSinceShown >= 110),
-                -1,
-                -1
-            )
-            _MC_INSTANCE.gui.setTitles(
-                title,
-                null,
-                -1,
-                -1,
-                -1
-            )
-        }
-		else {
-            _MC_INSTANCE.gui.setTimes(10 * +(ticksSinceShown >= 110), -1, -1)
-            _MC_INSTANCE.gui.setTitle(title)
+        if (!newDimension || title.string) {
+            if (global.kjspkgCompatLayer.versionId==6) {
+                _MC_INSTANCE.gui.setTitles(
+                    null,
+                    null,
+                    10 * +(ticksSinceShown >= 110),
+                    -1,
+                    -1
+                )
+                _MC_INSTANCE.gui.setTitles(
+                    title,
+                    null,
+                    -1,
+                    -1,
+                    -1
+                )
+            }
+            else {
+                _MC_INSTANCE.gui.setTimes(10 * +(ticksSinceShown >= 110), -1, -1)
+                _MC_INSTANCE.gui.setTitle(title)
+            }
         }
         
 		ticksSinceShown = -1
