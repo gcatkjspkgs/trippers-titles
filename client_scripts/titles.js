@@ -1,24 +1,28 @@
 const $Minecraft = global.kjspkgCompatLayer.legacyJava("net.minecraft.client.Minecraft")
 
 const _MC_INSTANCE = $Minecraft.getInstance()
-let tripperData = {
-	"biome": "",
-	"dimension": ""
-}
+
+let lastBiome = ""
+let lastDimension = ""
+let ticksSinceShown = 110
+let ticksSinceDimensionShown = 0
+let stopShowingDimension = false
 
 global.kjspkgCompatLayer.legacyOnEvent("client.tick", event => {
 	let biome = event.player.block.biomeId.toString()
 	let dimension = event.player.block.dimension.toString()
 
-	let dimension_key = ""
-	let biome_key = ""
+	let dimensionKey = ""
+	let biomeKey = ""
+    let newDimension = lastDimension != dimension
+    let newBiome = lastBiome != biome
 
-	if (tripperData.dimension!=dimension && (global.trippersTitles==undefined||global.trippersTitles.dimensionTitles!=false)) dimension_key = "dimension."+dimension.split(":")[0]+"."+dimension.split(":")[1]
-	if (tripperData.biome!=biome && (global.trippersTitles==undefined||global.trippersTitles.biomeTitles!=false)) biome_key = "biome."+biome.split(":")[0]+"."+biome.split(":")[1]
+	if (global.trippersTitles == undefined || global.trippersTitles.dimensionTitles != false) dimensionKey = "dimension."+dimension.split(":")[0]+"."+dimension.split(":")[1]
+	if (global.trippersTitles == undefined || global.trippersTitles.biomeTitles != false) biomeKey = "biome."+biome.split(":")[0]+"."+biome.split(":")[1]
 
-	if (biome_key) {
-		let biome_color = Text.translate(biome_key+".color").string
-		let subtitle = Text.translate(biome_key).color(biome_color==biome_key+".color" ? "#ffffff" : biome_color)
+	if (newBiome) {
+		let biomeColor = Text.translate(biomeKey+".color").string
+		let subtitle = Text.translate(biomeKey).color(biomeColor == biomeKey+".color" ? "#ffffff" : biomeColor)
 		
 		if (global.kjspkgCompatLayer.versionId==6) _MC_INSTANCE.gui.setTitles(
 			null,
@@ -30,22 +34,43 @@ global.kjspkgCompatLayer.legacyOnEvent("client.tick", event => {
 		else _MC_INSTANCE.gui.setSubtitle(subtitle)
 	}
 
-	if (dimension_key || biome_key) {
-		let dimension_color = Text.translate(dimension_key+".color").string
-		let title = Text.translate(dimension_key).color(dimension_color==dimension_key+".color" ? "#ffffff" : dimension_color)
+	if (newDimension || newBiome) {
+        if (newDimension) {
+            ticksSinceDimensionShown = -1
+            stopShowingDimension = false
+        }
 
-		if (global.kjspkgCompatLayer.versionId==6) _MC_INSTANCE.gui.setTitles(
-			title,
-			null,
-			-1,
-			-1,
-			-1
-		)
-		else _MC_INSTANCE.gui.setTitle(title)
+		let dimensionColor = Text.translate(dimensionKey+".color").string
+		let title = Text.translate(stopShowingDimension ? "" : dimensionKey).color(dimensionColor == dimensionKey+".color" ? "#ffffff" : dimensionColor)
+
+		if (global.kjspkgCompatLayer.versionId==6) {
+            _MC_INSTANCE.gui.setTitles(
+                null,
+                null,
+                10 * +(ticksSinceShown >= 110),
+                -1,
+                -1
+            )
+            _MC_INSTANCE.gui.setTitles(
+                title,
+                null,
+                -1,
+                -1,
+                -1
+            )
+        }
+		else {
+            _MC_INSTANCE.gui.setTimes(10 * +(ticksSinceShown >= 110), -1, -1)
+            _MC_INSTANCE.gui.setTitle(title)
+        }
+        
+		ticksSinceShown = -1
 	}
+
+    if (ticksSinceDimensionShown >= 110) stopShowingDimension = true
 	
-	tripperData = {
-		"biome": biome,
-		"dimension": dimension
-	}
+	lastBiome = biome
+    lastDimension = dimension
+	ticksSinceShown++
+    ticksSinceDimensionShown++
 })
